@@ -24,3 +24,10 @@ See documentation @https://petl.readthedocs.io/en/stable/intro.html
 
 `petl` is a general purpose Python package for extracting, transforming and loading tables of data.
 This package makes extensive use of lazy evaluation and iterators. This means, generally, that a pipeline will not actually be executed until data is requested.
+
+## Refs
+- https://github.com/dsartori/ETLDemo/blob/master/DemoDBDDL.sql
+- https://www.youtube.com/watch?v=InLgSUw_ZOE
+- https://petl.readthedocs.io/en/stable/index.html
+- https://www.bankofcanada.ca/valet/docs
+- https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database
