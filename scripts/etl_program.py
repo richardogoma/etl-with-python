@@ -29,7 +29,7 @@ def get_currency(val, row):
     country = CountryInfo(row.country)
     return country.currencies()[0].upper()
 
-def convert_currency(val, row, base_cur, dest_cur, amount, inverse):
+def convert_currency(val, row, base_cur, dest_cur, amount, inverse: bool) -> Decimal:
     c = CurrencyRates(force_decimal=True)
     rates = c.get_rates(base_cur, row.date)
     if inverse:
@@ -43,6 +43,12 @@ def transform_data():
         table = (
             etl
             .fromcsv(source_descriptor).cut(*range(0,11))    # Piping only features of interest
+
+            # Deduplicating rows
+            .distinct()
+
+            # Expunging worthless records
+            .select(lambda rec: rec.eur != '' and rec.hrk != '' and rec.lcy != '')
             
             # Normalizing the date feature using REGEX
             .sub('date', r"([0-9]{2})\.([0-9]{2})\.$", r"\1-\2-2018")
@@ -60,7 +66,7 @@ def transform_data():
                      where=lambda row: row.currency == '', pass_row=True)
 
             # Normalizing the data type of all rates features
-            .convert(('hrk', 'lcy', 'eur'), lambda row: Decimal(row))
+            .convert(('hrk', 'lcy', 'eur'), lambda v: Decimal(v))
 
             # Converting from local (lcy) currency to Croatian Kuna (ISO: HRK) for missing (hrk) values
             .convert('hrk', 
