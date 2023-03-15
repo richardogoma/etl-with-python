@@ -48,7 +48,7 @@ def transform_data():
             .distinct()
 
             # Expunging worthless records
-            .select(lambda rec: rec.eur != '' and rec.hrk != '' and rec.lcy != '')
+            .select(lambda rec: not (rec.eur == '' and rec.hrk == '' and rec.lcy == ''))
             
             # Normalizing the date feature using REGEX
             .sub('date', r"([0-9]{2})\.([0-9]{2})\.$", r"\1-\2-2018")
@@ -88,7 +88,7 @@ def transform_data():
 
 def load_data(table):
     print("Loading transformed data to CSV ....")
-    table.progress(10).tocsv(dest_descriptor, 'UTF-8')
+    table.progress(50).tocsv(dest_descriptor, 'UTF-8')
 
 def main():
     load_data(table=transform_data())
