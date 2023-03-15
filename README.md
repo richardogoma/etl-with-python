@@ -45,25 +45,25 @@ The data source is `file=../data/expenses.csv`, please refer to `../scripts/data
 
 ### Noisy flat-file features
 We have unnamed headers with white spaces delimited by comma in csv file
-image.png
+<img width="1016" alt="image" src="https://user-images.githubusercontent.com/108296666/225349436-0216f689-b725-430a-8fad-282ed6f581c8.png">
 
 ### Incomplete/Missing records
 Over 55% of records in the data source have missing values in features of importance
-image.png
+<img width="821" alt="image" src="https://user-images.githubusercontent.com/108296666/225349631-71cb6923-9d00-4be4-ae0b-69ba64939ef5.png">
 
 Refer to `cat ../data/empties.csv`
 
 ### Inconsistent date formats
 The format of dates in the date field has to be homogeneous, but the data set has either `dd.mm.` or `dd.mm.yyyy.` formats.
-image.png
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/108296666/225349771-55b5ed7d-3cb5-43a8-8467-687ef811ee21.png">
 
 Refer to `cat ../data/anomalousdates.csv`
 
 ### Duplicate records
-image.png
+<img width="858" alt="image" src="https://user-images.githubusercontent.com/108296666/225349836-07b02a7e-624a-4bbf-b214-d9e59c25be89.png">
 
 ### Data Sparsity
-image.png
+<img width="683" alt="image" src="https://user-images.githubusercontent.com/108296666/225349904-ff88655f-a280-433e-b6f5-cec94dcd1f73.png">
 
 While the `currency` feature appears to have an approx. 1:2 scarcity ratio, we can source this data from secondary sources (geolocation APIs) using the `city` and `country` features.
 
@@ -71,11 +71,11 @@ The study used euros (EUR) and Croatian Kuna (ISO: HRK) as the currencies of foc
 
 **Could the `hrk`, `lcy` and `eur` fields be missing simultaneously?**
 
-image.png
+<img width="728" alt="image" src="https://user-images.githubusercontent.com/108296666/225349974-f0fe23fc-b2ae-4659-a10d-b338266db209.png">
 
 We don't have such instances in the dataset, but if we have cases where `hrk`, `lcy` and `eur` features are missing _simultaneously_, they would be expunged, as such records present no value to the analysis. 
 
 It is expected that the `lcy` would be the only sparse field, and would be discarded at the tail end of the transformational pipeline. 
 
-## Program Output
-image.png
+## Program Test Output
+<img width="1109" alt="image" src="https://user-images.githubusercontent.com/108296666/225350030-9cbad21b-88c2-411f-ad39-807224c38f30.png">
