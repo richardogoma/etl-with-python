@@ -39,7 +39,7 @@ cat ../data/empties.csv | wc -l
 
 # Inspecting the date field
 cat $file \
-    | petl "fromcsv().cut(*range(0,11)).search('date', '[0-9]{2}.[0-9]{2}.$').lookall()"
+    | petl "fromcsv().cut(*range(0,11)).search('date', '[0-9]{2}\.[0-9]{2}\.$').lookall()"
 
 cat $file \
     | petl "fromcsv().cut(*range(0,11)).searchcomplement('date', '[0-9]{2}\.[0-9]{2}\.[0-9]{4}\.$').look()"
@@ -65,7 +65,17 @@ cat $file \
 cat $file \
     | petl "fromcsv().cut(*range(0,11)).select(lambda rec: (rec.hrk == '' and rec.lcy == '')).look()"
 
+ cat $file \
+    | petl "fromcsv().cut(*range(0,11)).select(lambda rec: (rec.hrk != '')).rowslice(5, 15)"
+
+cat $file \
+    | petl "fromcsv().cut(*range(0,11)).select(lambda rec: (rec.eur == '' and rec.lcy == '')).look()"
+
 # Potential issues
 # 1. Both the 'hrk' and `lcy` and `city` fields are missing; although, there are no such instances, but if existent, we'll remove such rows.
-# 2. 
+# 2. There are many instances of lcy and eur fields being empty simultaneously; so direct conversion is inhibited, whereas, there were values for the hrk. So there has to be a two stage conditional currency conversion. 
 
+./etl_program.py
+nano ../data/expenses_enriched.csv
+head ../data/expenses_enriched.csv
+cat ../data/expenses_enriched.csv | petl "fromcsv().look()"
