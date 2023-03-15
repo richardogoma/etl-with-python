@@ -1,17 +1,23 @@
-# Mini project demonstrating ETL with Python and `petl`
+# ETL with Python and `petl`
 
-This is a secondary project or study of Mislav Vuletić's daily-expense-manager project with a focus on the processing of the dataset used in the inquest. The goal of Mislav's case study was to process historical daily expenses data with machine learning algorithms to understand and predict an individual's spending behaviour. 
+This is a _**secondary project**_ or study of Mislav Vuletić's _daily-expense-manager_ project with a focus on the processing of the dataset used in the inquest. The goal of Mislav's case study was to process historical daily expenses data with machine learning algorithms to understand and predict an individual's spending behaviour. 
 
 ```bash
 $ git clone https://github.com/MasterMedo/daily-expense-manager.git
 ```
 
-The dataset used for the study needed _**pre-processing and enrichment**_ with data from secondary sources like exchange rates and geolocation data; this was originally done using the `pandas` package on the same program as the analysis or investigation.
+The dataset used for the study needed _**pre-processing and enrichment**_ with data from secondary sources like exchange rates and geolocation data; this was originally done by Mislav who used the `pandas` package for ETL and analysis in a single program.
 
-It might be sufficient to persist ETL and Analysis workloads on the same program when conducting a personal study, especially with small datasets. But in a business environment, transformational or ETL workloads shouldn't be siloed in notebooks littered everywhere across the organization. 
+It might suffice to persist ETL and analysis workloads through the same program when conducting a personal study, especially with small datasets. But in a business environment, transformational or ETL workloads shouldn't be siloed in notebooks littered everywhere across the organization. 
 > It is a data management best practice to manage ETL workloads or processes centrally and in a unified fashion, especially for mission critical datasets. Data analysts/scientists can access high-quality data for their analysis reliably if a centralized ETL data pipeline is developed and managed by ETL/Data engineers. </br> 
 
+Centralizing ETL processes also helps to ensure consistency and accuracy in the data. By having a single source of truth, data can be managed and maintained in a more organized and efficient manner. This can also help to reduce errors and redundancies that can occur when data is managed in a decentralized manner.
+
 An ETL (Extract, Transform, Load) pipeline is essential for getting data from different sources, transforming it into a usable format, and loading it into a data warehouse or other destination.
+
+Overall, a centralized ETL pipeline can help improve the quality and reliability of data, which is crucial for any data-driven organization.
+
+This secondary project solely focuses on the development of an ETL data pipeline to manage the data processing workload for the daily expense analysis program. 
 
 ## Project requirements
 This is a python project and it is portable. 
@@ -85,7 +91,7 @@ The study used euros (EUR) and Croatian Kuna (HRK) as the currencies of focus. T
 
 Although we don't have such instances in the dataset used for the study, but if we have cases where `hrk`, `lcy` and `eur` features are missing _**simultaneously**_, they would be expunged as such records present no value to the expense analysis. 
 
-It is expected that the `lcy` feature would be the only sparse field after enrichment of other features in the pipeline; the `lcy` feature would be discarded at the tail end of the transformational pipeline.
+It is expected that the `lcy` feature would be the only sparse field after enrichment of other features in the pipeline, therefore, the `lcy` feature would be discarded at the tail end of the transformational pipeline.
 
 ## Program Output & Unit Testing
 ```bash
