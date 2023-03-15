@@ -93,15 +93,22 @@ Although we don't have such instances in the dataset used for the study, but if 
 
 It is expected that the `lcy` feature would be the only sparse field after enrichment of other features in the pipeline, therefore, the `lcy` feature would be discarded at the tail end of the transformational pipeline.
 
-## Program Output & Unit Testing
-```bash
-$ # Running the program
-$ chmod +x etl_program.py
-$ ./etl_program.py
+## Unit Testing
+<img width="920" alt="image" src="https://user-images.githubusercontent.com/108296666/225453748-cd2afa6c-d9e4-4557-8e77-a216ba444c54.png">
 
-$ echo "----> Eyeballing loaded dataset"
-$ cat ../data/expenses_enriched.csv | petl "fromcsv().look()"
-```
-<img width="870" alt="image" src="https://user-images.githubusercontent.com/108296666/225382289-07d8e420-7aed-42f0-99d9-0caf38da9661.png">
+We observe transformations on the rowslice when the `transform_data()` function is invoked. Proof of concept that the pipeline works as intended. 
 
-<img width="1109" alt="image" src="https://user-images.githubusercontent.com/108296666/225350030-9cbad21b-88c2-411f-ad39-807224c38f30.png">
+## Program Output
+<img width="806" alt="image" src="https://user-images.githubusercontent.com/108296666/225454208-69d0c386-3247-4edb-ac35-4c422d43c625.png">
+
+- The program is not a _speedy_. Costing 211.94secs to process 167 rows is, well? 🤔 However, the program depends on secondary data sources over the internet, and the performance of these sources directly impact the program's performance. 
+- Proof of concept has been established that the ETL pipeline is effective, maybe not efficient. This holds as there are no longer records with missing values. This is proof that the raw data has been processed effectively and enriched with data from secondary sources. 
+
+## Improvement opportunities
+- According to documentation, `petl` transformational pipelines are _**not scalable if speed is a priority,**_ especially when working with very large datasets and/or performance-critical applications. 
+- The _**volume of HTTP requests**_ made by the program may need require review, as those secondary data sources over the internet largely affect the performance of this program. For example, the country-currency lookup. 
+- _**A proper loading area such as a database**_ is more effective to preserve the transformed dataset's datatype/metadata which cannot be persisted to a flat file. 
+
+## Conclusion
+The goal of this study has been achieved, and proof of concept has been established. 
+
