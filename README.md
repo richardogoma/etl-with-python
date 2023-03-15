@@ -26,6 +26,8 @@ The program's configurations are saved in `./config.ini` <br/>
 This project utilizes the [`petl` package on PyPi](https://petl.readthedocs.io/en/stable/index.html).
 > `petl` transformation pipelines make minimal use of system memory and can scale to millions of rows if speed is not a priority. This package makes extensive use of lazy evaluation and iterators. This means, generally, that a pipeline will not actually be executed until data is requested.
 
+This project also utilizes [the `geopy` package](https://geopy.readthedocs.io/en/stable/#), which is a Python client for several popular geocoding web services, [the `countryinfo` python module](https://pypi.org/project/countryinfo/) for returning data about countries, and [the `forex-python` module](https://pypi.org/project/forex-python/) which is a free foreign exchange rates and currency conversion API service.
+
 ## Source data features
 The period of data collection is year 2018. 
 ```bash
