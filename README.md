@@ -9,7 +9,7 @@ $ git clone https://github.com/MasterMedo/daily-expense-manager.git
 The dataset used for the study needed _**pre-processing and enrichment**_ with data from secondary sources like exchange rates and geolocation data; this was originally done using the `pandas` package on the same program as the analysis or investigation.
 
 It might be sufficient to persist ETL and Analysis workloads on the same program when conducting a personal study, especially with small datasets. But in a business environment, transformational or ETL workloads shouldn't be siloed in notebooks littered everywhere across the organization. 
-> It is a data management best practice to manage ETL workloads or processes centrally and in a unified fashion, especially for mission critical datasets. Data analysts/scientists can have access to high quality data reliably if an ETL data pipeline is developed and managed by ETL/Data engineers. </br> 
+> It is a data management best practice to manage ETL workloads or processes centrally and in a unified fashion, especially for mission critical datasets. Data analysts/scientists can access high-quality data for their analysis reliably if a centralized ETL data pipeline is developed and managed by ETL/Data engineers. </br> 
 
 An ETL (Extract, Transform, Load) pipeline is essential for getting data from different sources, transforming it into a usable format, and loading it into a data warehouse or other destination.
 
