@@ -79,11 +79,12 @@ Refer to `cat ../data/anomalousdates.csv`
 <img width="858" alt="image" src="https://user-images.githubusercontent.com/108296666/225349836-07b02a7e-624a-4bbf-b214-d9e59c25be89.png">
 
 ### Data Sparsity
-<img width="683" alt="image" src="https://user-images.githubusercontent.com/108296666/225349904-ff88655f-a280-433e-b6f5-cec94dcd1f73.png">
+<img width="728" alt="image" src="https://user-images.githubusercontent.com/108296666/225908219-9f0c1714-0ad5-47f6-af87-bd5f2449a89b.png">
+<img width="826" alt="image" src="https://user-images.githubusercontent.com/108296666/225909003-f25b49cf-8c7b-4295-a91b-a0f2c567f73d.png">
 
-While the `currency` feature appears to have an approx. 1:2 scarcity ratio, we can source this data from secondary sources (geolocation APIs) using the `city` and `country` features.
+While the `currency` feature has the highest percentage of data sparsity at 55%, we can source this data from secondary sources (geolocation APIs) using the `city` and `country` features.
 
-The study used euros (EUR) and Croatian Kuna (HRK) as the currencies of focus. The missing `hrk` values would be derived from the `lcy` (or local currency) field, and finally the missing values in the `eur` field would be derived via public forex APIs using the `hrk` field. 
+The study used euros (EUR) as the currency of focus. The missing `hrk` values would be derived from the `lcy` (or local currency) field, and finally the missing values in the `eur` field would be derived via public forex APIs using the `hrk` field. 
 
 #### Could the `hrk`, `lcy` and `eur` fields be missing simultaneously?
 
