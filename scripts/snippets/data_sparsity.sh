@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# Inspect the first 11 fields/features/columns of a dataset for sparsity
+# Inspect the first 11 fields/features/columns/variables of a dataset for sparsity
+# export projecthome='...Home directory of project workspace ...'
+
 file=$projecthome/data/expenses.csv
 headers=$(head -n 1 $file | tr ',' '\n' | head -n 11); \
 totalrows=$(cat $file | petl "fromcsv().nrows()"); \
