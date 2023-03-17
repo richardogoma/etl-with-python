@@ -5,12 +5,14 @@
 
 file=$projecthome/data/expenses.csv
 cat $file \
-	| petl "fromcsv().cut('date').sub('date', r'[0-9]', r'0').distinct().lookall()"
+	| petl "fromcsv().cut('date').sub('date', r'[0-9]', r'0').distinct() \
+		.lookall()" 
 
 # Eyeball the top rows of the anomalous date records
 cat $file \
 	| petl "fromcsv().cut(*range(0,7)).addrownumbers() \
-		.searchcomplement('date', '^[0-9]{2}\.[0-9]{2}\.[0-9]{4}\.$').head(2)"
+		.searchcomplement('date', r'^[0-9]{2}\.[0-9]{2}\.[0-9]{4}\.$') \
+		.head(2)" 
 
 # Normalizing the date feature using REGEX
 cat $file \
