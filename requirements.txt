@@ -3,4 +3,4 @@ forex-python==1.8
 geopy==2.3.0
 petl==1.7.12
 pip==22.0.2
-setuptools==59.6.0
+setuptools==65.5.1
