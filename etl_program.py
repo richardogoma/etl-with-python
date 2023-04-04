@@ -11,7 +11,7 @@ from decimal import Decimal
 
 # Declaring global variables from config file
 try:
-    config_file = "../config.ini"
+    config_file = "config.ini"
     if not os.path.exists(config_file):
         raise IOError(f"Configuration file {config_file} does not exist")
     else:
