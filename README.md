@@ -1,4 +1,4 @@
-[![Python application setup with GitHub actions](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml/badge.svg)](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml)
+[![Python application setup with GitHub actions](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml/badge.svg?branch=main&event=push)](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml)
 
 # ETL with Python and `petl`
 
