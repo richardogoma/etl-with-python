@@ -11,4 +11,4 @@ format:
 lint:
 	pylint --disable=R,C,E1101,W0613 etl_program.py
 
-all: install lint test format
+all: install lint format test 

@@ -8,6 +8,7 @@ from functools import partial
 from geopy.geocoders import Nominatim
 from countryinfo import CountryInfo
 from decimal import Decimal
+import re
 
 # Declaring global variables from config file
 try:
@@ -32,31 +33,62 @@ except KeyError:
     sys.exit()
 
 
+def normalize_date(val, row):
+    isodate = etl.dateparser("%Y-%m-%d")
+    first_pattern = r"^([0-9]{2})\.([0-9]{2})\.$"
+    first_match = re.search(first_pattern, val)
+    if first_match:
+        day, month = first_match.groups()
+        date = f"2018-{month}-{day}"
+        return isodate(date)
+
+    second_pattern = r"^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\.$"
+    second_match = re.search(second_pattern, val)
+    if second_match:
+        day, month, year = second_match.groups()
+        date = f"{year}-{month}-{day}"
+        return isodate(date)
+
+
 def get_country(val, row):
-    geolocator = Nominatim(user_agent=client_app_name)
-    geocode = partial(geolocator.geocode, language="en")
-    location = geocode(row.city)
-    return str(location).split(", ")[-1].lower()
+    if (row.city is not None) and (row.city != ""):
+        geolocator = Nominatim(user_agent=client_app_name)
+        geocode = partial(geolocator.geocode, language="en")
+        location = geocode(row.city)
+        return str(location).split(", ")[-1].lower()
 
 
 def get_currency(val, row):
-    country = CountryInfo(row.country)
-    return country.currencies()[0].upper()
+    if (row.country is not None) and (row.country != ""):
+        country = CountryInfo(row.country)
+        return country.currencies()[0].upper()
 
 
 def convert_currency(val, row, base_cur, dest_cur, amount):
-    url = "https://currency-conversion-and-exchange-rates.p.rapidapi.com/convert"
-    querystring = {"from": base_cur, "to": dest_cur, "amount": amount, "date": row.date}
-    headers = {
-        "X-RapidAPI-Key": api_key,
-        "X-RapidAPI-Host": "currency-conversion-and-exchange-rates.p.rapidapi.com",
-    }
-    response = requests.request(
-        "GET", url, headers=headers, params=querystring, timeout=60
-    )
-    if response.status_code == 200:
-        deserialized_response = response.json()
-        return deserialized_response["result"]
+    if (
+        base_cur is not None
+        and base_cur.isalpha()
+        and dest_cur is not None
+        and dest_cur.isalpha()
+        and amount.replace(".", "").isdecimal()
+    ):
+        url = "https://currency-conversion-and-exchange-rates.p.rapidapi.com/convert"
+        querystring = {
+            "from": base_cur,
+            "to": dest_cur,
+            "amount": amount,
+            "date": row.date,
+        }
+        headers = {
+            "X-RapidAPI-Key": api_key,
+            "X-RapidAPI-Host": "currency-conversion-and-exchange-rates.p.rapidapi.com",
+        }
+        response = requests.request(
+            "GET", url, headers=headers, params=querystring, timeout=60
+        )
+        if response.status_code == 200:
+            deserialized_response = response.json()
+            return deserialized_response["result"]
 
 
 def transform_data(data):
@@ -70,21 +102,23 @@ def transform_data(data):
 
     # PETL transformation pipelines
     try:
-        isodate = etl.dateparser("%Y-%m-%d")
         table = (
             etl.fromcsv(data)
             # Piping only features of interest
             .cut(*range(0, 11))
             # Deduplicating rows
             .distinct()
-            # Expunging worthless records
-            .select(lambda row: not (row.eur == "" and row.hrk == "" and row.lcy == ""))
+            # Filtering out rows where the eur, hrk, and lcy columns are all empty strings.
+            .select(lambda row: not all((row.eur == "", row.hrk == "", row.lcy == "")))
             # Normalizing the date feature using REGEX
-            .sub("date", r"^([0-9]{2})\.([0-9]{2})\.$", r"2018-\2-\1")
-            .sub("date", r"^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\.$", r"\3-\2-\1")
-            .convert("date", isodate)
+            .convert("date", normalize_date, pass_row=True)
+            # Filtering out rows where the date column is None
+            .select(lambda row: row.date is not None)
+            # Normalizing data types and formats
+            .convert(("city", "country", "currency"), str)
+            .convert({"city": "lower", "country": "lower", "currency": "upper"})
             # Inserting missing country values via geocoding
-            .sub("city", r"^(warszaw)$", r"warsaw")
+            .convert("city", "replace", "warszaw", "warsaw")
             .convert(
                 "country",
                 get_country,
@@ -125,8 +159,9 @@ def transform_data(data):
 
 
 def load_data(table):
+    out_table = etl.select(table, lambda row: not any(v is None for v in row))
     print("Loading transformed data to CSV ....")
-    table.progress(50).tocsv(dest_descriptor, "UTF-8")
+    out_table.progress(50).tocsv(dest_descriptor, "UTF-8")
 
 
 def main():
