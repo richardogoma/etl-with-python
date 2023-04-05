@@ -1,3 +1,5 @@
+[![Python application setup with GitHub actions](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml/badge.svg)](https://github.com/richardogoma/etl-with-python/actions/workflows/python-app.yml)
+
 # ETL with Python and `petl`
 
 This is a _**secondary project**_ or study of Mislav Vuletić's _daily-expense-manager_ project with a focus on the processing of the dataset used in the inquest. The goal of Mislav's case study was to process historical daily expenses data with machine learning algorithms to understand and predict an individual's spending behaviour. 
