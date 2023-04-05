@@ -8,6 +8,9 @@ on:
 
 jobs:
   build:
+    
+    env:
+      rapid_api_key: ${{ secrets.rapid_api_key }}
 
     runs-on: ubuntu-latest
 
