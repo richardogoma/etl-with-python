@@ -26,9 +26,8 @@ except IOError as e:
     sys.exit()
 
 # Retrieving api key from environment variable
-try:
-    api_key = os.environ["rapid_api_key"]
-except KeyError:
+api_key = os.getenv("rapid_api_key", os.getenv("RAPID_API_KEY"))
+if not api_key:
     print("Error: 'rapid_api_key' environment variable is not set")
     sys.exit()
 
