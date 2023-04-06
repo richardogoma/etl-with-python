@@ -2,4 +2,10 @@ hrk,vendor,date,description,meansofpayment,city,category,currency,country,lcy,eu
 ,corner-shop,09.11.2018.,gift,credit-card,berlin,gifts,,,4.00,4.00
 20.57,carrefour,11.11.2018.,food,credit-card,warszaw,groceries,,poland,,
 103.00,carrefour,20.11.,food,credit-card,poznan,groceries,,,,
-
+,intercity,11.11.2018.,train,credit-card,warszaw,travel,,,1.40,1.40
+81.32,biedronka,13.11.2018.,food,cash,poznan,groceries,,,,
+70.83,ryanair,14.11.2018.,airplane,credit-card,poznan,travel,,,,
+34.71,sleep-planet,17.11.,supplies,credit-card,poznan,decorations,,,,
+9.00,mcdonalds,03.12.,food,credit-card,gdynia,fastfood,,,,
+5.00,pkp-skm,03.11.,train,credit-card,gdynia,travel,,,,
+135.00,intercity,03.11.,train,credit-card,gdynia,travel,,,,
