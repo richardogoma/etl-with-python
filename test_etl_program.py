@@ -2,7 +2,7 @@ import petl as etl
 import random
 from etl_program import transform_data
 
-random_row = random.randint(1, 6)
+random_row = random.randint(1, 10)
 # Read a random row from CSV file into a petl table
 table = (
     etl.fromcsv("data/test_data.csv")

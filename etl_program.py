@@ -39,14 +39,20 @@ def normalize_date(val, row):
     if first_match:
         day, month = first_match.groups()
         date = f"2018-{month}-{day}"
-        return isodate(date)
+        try:
+            return isodate(date)
+        except ValueError:
+            return None
 
     second_pattern = r"^([0-9]{2})\.([0-9]{2})\.([0-9]{4})\.$"
     second_match = re.search(second_pattern, val)
     if second_match:
         day, month, year = second_match.groups()
         date = f"{year}-{month}-{day}"
-        return isodate(date)
+        try:
+            return isodate(date)
+        except ValueError:
+            return None
 
 
 def get_country(val, row):
@@ -90,6 +96,32 @@ def convert_currency(val, row, base_cur, dest_cur, amount):
             return deserialized_response["result"]
 
 
+def retrieve_hrk_rates() -> dict:
+    hrk_rates = {}
+    url = "https://currency-conversion-and-exchange-rates.p.rapidapi.com/timeseries"
+    querystring = {
+        "start_date": "2018-01-01",
+        "end_date": "2018-12-31",
+        "from": "HRK",
+        "to": "EUR",
+    }
+    headers = {
+        "X-RapidAPI-Key": api_key,
+        "X-RapidAPI-Host": "currency-conversion-and-exchange-rates.p.rapidapi.com",
+    }
+    response = requests.request(
+        "GET", url, headers=headers, params=querystring, timeout=60
+    )
+    if response.status_code == 200:
+        deserialized_response = response.json()
+        rates = deserialized_response["rates"]
+        for date, rate in rates.items():
+            isodate = etl.dateparser("%Y-%m-%d")
+            norm_date = isodate(date)
+            hrk_rates[norm_date] = rate["HRK"]
+        return hrk_rates
+
+
 def transform_data(data):
     # Testing for the source dataset's existence
     try:
@@ -99,6 +131,9 @@ def transform_data(data):
     except IOError as io_err:
         print("Error: " + str(io_err))
         sys.exit()
+
+    # Retrieve historical EUR to HRK rates (in 2018)
+    hrk_rates = retrieve_hrk_rates()
 
     # PETL transformation pipelines
     try:
@@ -143,7 +178,7 @@ def transform_data(data):
             # Converting from the Croatian Kuna (HRK) to EUR for missing (eur) values
             .convert(
                 "eur",
-                lambda v, row: convert_currency(v, row, "HRK", "EUR", row.hrk),
+                lambda v, row: float(row.hrk) / hrk_rates[row.date],
                 where=lambda row: row.eur == "",
                 pass_row=True,
             )
