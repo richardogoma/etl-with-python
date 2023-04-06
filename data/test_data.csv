@@ -2,6 +2,4 @@ hrk,vendor,date,description,meansofpayment,city,category,currency,country,lcy,eu
 ,corner-shop,09.11.2018.,gift,credit-card,berlin,gifts,,,4.00,4.00
 20.57,carrefour,11.11.2018.,food,credit-card,warszaw,groceries,,poland,,
 103.00,carrefour,20.11.,food,credit-card,poznan,groceries,,,,
-103.00,carrefour,20.11,food,credit-card,poznan,groceries,,,,
-20.57,carrefour,2018-11-11,food,credit-card,warszaw,groceries,,poland,,
-,flixbus,10.11.2018.,bus,credit-card,berlin,travel,,,,
+

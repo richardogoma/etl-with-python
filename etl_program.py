@@ -93,8 +93,9 @@ def convert_currency(val, row, base_cur, dest_cur, amount):
 def transform_data(data):
     # Testing for the source dataset's existence
     try:
-        if not os.path.exists(data):
-            raise IOError(f"Source dataset {data} does not exist")
+        if not isinstance(data, etl.MemorySource):
+            if not os.path.exists(data):
+                raise IOError(f"Source dataset {data} does not exist")
     except IOError as io_err:
         print("Error: " + str(io_err))
         sys.exit()
