@@ -59,7 +59,7 @@ def get_country(val, row):
     if (row.city is not None) and (row.city != ""):
         geolocator = Nominatim(user_agent=client_app_name)
         geocode = partial(geolocator.geocode, language="en")
-        location = geocode(row.city)
+        location = geocode(row.city, timeout=10)
         return str(location).split(", ")[-1].lower()
 
 
