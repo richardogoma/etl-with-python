@@ -37,6 +37,8 @@ make all
 chmod +x etl_program.py
 ./etl_program.py
 ```
+<img width="527" alt="image" src="https://user-images.githubusercontent.com/108296666/230447530-59c111a7-dbe6-490a-af02-faee9689976a.png">
+<img width="731" alt="image" src="https://user-images.githubusercontent.com/108296666/230447589-e008df3a-2584-4593-a226-76cbc9b91d0e.png">
 
 # Input and Output
 The input, output and test file paths are accessed by the program via the configuration file- `config.ini`
